@@ -15,6 +15,8 @@
   --heading-font: "Montserrat", sans-serif;
   --paragraph-font: "Hind", sans-serif;
   --corner-radius: 40px;
+  --section-padding-x: 16px;
+  --section-padding-y: 128px;
 }
 
 body {
@@ -56,11 +58,12 @@ h4 {
 
 /* ------------ ARROW ------------ */
 .arrow-container {
-  padding: 0 16px 64px 16px;
+  padding: 48px var(--section-padding-x) 64px;
   display: flex;
   justify-content: center;
-  left: 50%;
-  transform: translate(-50%);
+}
+
+.arrow {
   animation: arrowJump 1s infinite;
 }
 
@@ -82,6 +85,9 @@ h4 {
 /* ------------ MEDIA QUERIES ------------ */
 /* ------------ Tablet and up ------------ */
 @media (min-width: 744px) and (max-width: 1279px) {
+  :root {
+    --section-padding-x: 32px;
+  }
 
   h1 {
     font-size: 56px;
@@ -98,11 +104,21 @@ h4 {
 
 
 @media (min-width: 1280px) {
+  :root {
+    --section-padding-x: 161px;
+  }
+
   .arrow-container {
     padding: 200px 0 63px 0;
   }
 
   h1 {
     font-size: 80px;
+  }
+}
+
+@media (min-width: 1513px) {
+  :root {
+    --section-padding-x: 234px;
   }
 }

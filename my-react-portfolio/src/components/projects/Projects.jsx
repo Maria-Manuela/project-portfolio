@@ -3,74 +3,68 @@ import { Header } from "../common/Header";
 import { ProjectCard } from "./ProjectCard";
 import "./projects.css";
 
-const API = "https://api.github.com/users/Maria-Manuela/repos";
+const GITHUB_API = "https://api.github.com/users/Maria-Manuela/repos";
+const REPOS_PER_PAGE = 30;
 
-//component to fetch data from API
+const parseLinkHeader = (header) => {
+  return header.split(", ").reduce((links, part) => {
+    const [url, rel] = part.split("; ");
+    links[rel.replace(/"/g, "").replace("rel=", "")] = url.slice(1, -1);
+    return links;
+  }, {});
+};
+
 export const Projects = () => {
   const [gitData, setGitData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const parseLinkHeader = (header) => {
-    const linkHeadersArray = header
-      .split(", ")
-      .map((header) => header.split("; "));
-    const links = {};
-    linkHeadersArray.forEach((link) => {
-      const linkPart = link[0].slice(1, -1);
-      const relPart = link[1].replace(/"/g, "").replace("rel=", "");
-      links[relPart] = linkPart;
-    });
-    return links;
-  };
-
-  //function to fetch the API data
-  const fetchAllProjects = async () => {
-    let allRepos = [];
-    let page = 1;
-    let hasMore = true;
-
-    while (hasMore) {
-      try {
-        const response = await fetch(`${API}?page=${page}&per_page=30`);
-
-        if (!response.ok) {
-          throw new Error("Problem fetching API data");
-        }
-
-        const rawData = await response.json();
-        allRepos = [...allRepos, ...rawData];
-
-        // Check if there are more pages
-        const linkHeader = response.headers.get("Link");
-        if (linkHeader) {
-          const links = parseLinkHeader(linkHeader);
-          hasMore = links.next ? true : false;
-          page++;
-        } else {
-          hasMore = false;
-        }
-      } catch (error) {
-        setError(error);
-        console.error(error);
-        hasMore = false;
-      }
-    }
-
-    // Filter the fetched repositories to include only those whose names start with "project"
-    const filteredRepos = allRepos.filter((repo) =>
-      repo.name.startsWith("project")
-    );
-
-    setGitData(filteredRepos);
-    setLoading(false);
-    // Set loading to false after data is fetched
-  };
-
-  //handle Fetch
   useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchAllProjects = async () => {
+      try {
+        let allRepos = [];
+        let page = 1;
+        let hasMore = true;
+
+        while (hasMore) {
+          const response = await fetch(
+            `${GITHUB_API}?page=${page}&per_page=${REPOS_PER_PAGE}`,
+            { signal: abortController.signal }
+          );
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch projects (${response.status})`);
+          }
+
+          const repos = await response.json();
+          allRepos = allRepos.concat(repos);
+
+          const linkHeader = response.headers.get("Link");
+          hasMore = Boolean(linkHeader && parseLinkHeader(linkHeader).next);
+          if (hasMore) page += 1;
+        }
+
+        const projectRepos = allRepos.filter((repo) =>
+          repo.name.startsWith("project")
+        );
+
+        setGitData(projectRepos);
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          setError(err instanceof Error ? err : new Error("Unknown error"));
+        }
+      } finally {
+        if (!abortController.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
     fetchAllProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    return () => abortController.abort();
   }, []);
 
   return (
@@ -80,9 +74,9 @@ export const Projects = () => {
         className={"projects-heading"}
         text={"Featured Projects"}
       />
-      {loading ? ( // Display loading state while fetching data
+      {loading ? (
         <p className="loading-message">Loading...</p>
-      ) : error ? ( // Display error message if there's an error
+      ) : error ? (
         <p className="error-message">An error occurred: {error.message}</p>
       ) : (
         <ProjectCard repositories={gitData} />

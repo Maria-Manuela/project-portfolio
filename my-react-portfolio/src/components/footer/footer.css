@@ -5,7 +5,6 @@
   overflow: hidden;
 }
 
-/* Animation moveLeftToRight is brought in */
 .banner h3 {
   color: white;
   padding: 41px 0 35px 0;
@@ -13,7 +12,6 @@
   animation: moveLeftToRight 20s linear infinite;
 }
 
-/* Animation moveLeftToRight is set up using keyframes */
 @keyframes moveLeftToRight {
   0% {
     transform: translateX(0%);

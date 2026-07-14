@@ -1,8 +1,11 @@
 .tech-section {
-  padding: 128px 16px;
+  padding: var(--section-padding-y) var(--section-padding-x);
   background: var(--primary);
+  display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .tech-wrapper {
@@ -11,6 +14,7 @@
   justify-content: center;
   align-items: center;
   gap: 64px;
+  width: 100%;
 }
 
 .tech-heading {
@@ -19,6 +23,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  text-align: center;
 }
 
 .tech-paragraph {
@@ -28,13 +33,13 @@
   font-weight: 600;
   line-height: normal;
   font-family: var(--paragraph-font);
+  text-align: center;
 }
 
-/* ------------ MEDIA QUERIES ------------ */
-/* ------------ Tablet only ------------ */
-@media (max-width: 1279px) and (min-width: 744px) {
+@media (min-width: 744px) and (max-width: 1279px) {
   .tech-section {
-    padding: 256px 32px;
+    padding-top: 256px;
+    padding-bottom: 256px;
   }
 
   .tech-wrapper {
@@ -43,6 +48,7 @@
 
   .tech-heading {
     align-self: center;
+    width: 100%;
   }
 
   .tech-paragraph {
@@ -50,20 +56,15 @@
   }
 }
 
-/* ------------ Desktop only ------------ */
 @media (min-width: 1280px) and (max-width: 1512px) {
   .tech-section {
-    padding: 0 161px;
+    padding-top: 0;
+    padding-bottom: 0;
     height: 980px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .tech-wrapper {
-    display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
     gap: 124px;
   }
@@ -76,16 +77,13 @@
 
 @media (min-width: 1513px) {
   .tech-section {
-    display: flex;
-    justify-content: center;
-    padding: 0 234px;
+    padding-top: 0;
+    padding-bottom: 0;
     height: 980px;
   }
 
   .tech-wrapper {
-    display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
   }
 }

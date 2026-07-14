@@ -4,24 +4,37 @@
   justify-content: center;
   background-color: var(--light-secondary);
   color: var(--text);
-  padding: 128px 16px;
+  padding: var(--section-padding-y) var(--section-padding-x);
   gap: 64px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .article-container::before {
   content: "";
   position: absolute;
   top: -4px;
-  /* Adjust the position of the divider */
   left: 0;
   width: 100%;
   height: 20px;
-  /* Adjust the height of the line */
   background-image: url("/icons/divider.jpg");
   background-repeat: repeat-x;
-  /* Repeat the path along the x-axis */
   z-index: 1;
+}
+
+.article-heading {
+  color: var(--secondary);
+  font-size: 56px;
+  font-weight: 700;
+  font-style: normal;
+  align-self: center;
+}
+
+.article-list {
+  display: grid;
+  gap: 64px;
+  width: 100%;
 }
 
 .article-card {
@@ -29,40 +42,32 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
-  align-self: stretch;
+  width: 100%;
 }
 
 .article-img-container {
+  position: relative;
   width: 100%;
+  max-width: 100%;
+  aspect-ratio: 343 / 200;
   overflow: hidden;
+  box-sizing: border-box;
   border-bottom: 20px solid var(--secondary);
   border-left: 20px solid var(--secondary);
 }
 
+.article-img-container .image {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+
 .article-img {
   width: 100%;
+  height: 100%;
+  display: block;
   object-fit: cover;
-}
-
-/* Default height for mobile */
-.article-img {
-  height: 200px;
-}
-
-.article-list {
-  display: grid;
-  justify-content: center;
-  gap: 64px;
-  max-width: 100%;
-}
-
-.article-heading {
-  color: var(--secondary);
-  /*   font-family: Montserrat; */
-  font-size: 56px;
-  font-weight: 700;
-  font-style: normal;
-  align-self: center;
+  object-position: center;
 }
 
 .article-text {
@@ -71,46 +76,25 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
+  width: 100%;
 }
 
-/* ------------ MEDIA QUERIES ------------ */
-/* ------------ Tablet only ------------ */
-@media (max-width: 1279px) and (min-width: 744px) {
+@media (min-width: 744px) and (max-width: 1279px) {
   .article-container {
-    padding: 128px 32px;
     gap: 98px;
   }
 
   .article-heading {
     align-self: baseline;
   }
-
-  .article-img-container {
-    height: 340px;
-    align-self: stretch;
-  }
-
-  .article-img {
-    height: 340px;
-    max-height: 100%;
-    object-fit: cover;
-  }
 }
 
-/* Add border bottom conditionally based on screen size */
-
-/* ------------ Desktop only ------------ */
 @media (min-width: 1280px) {
   .article-container {
-    padding: 124px 161px 128px 161px;
-    /* Set the padding to "auto" to center the container horizontally */
-    gap: 64px;
-    display: flex;
-    /* Change to flex layout to center the heading and article-list */
-    flex-direction: column;
-    /* Stack the heading and article-list vertically */
+    padding-top: 124px;
+    padding-bottom: 128px;
     align-items: center;
-    /* Center items horizontally within the container */
+    gap: 64px;
   }
 
   .article-heading {
@@ -119,34 +103,20 @@
   }
 
   .article-list {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* two columns for desktop */
     gap: 98px;
     max-width: 1226px;
-    justify-content: center;
   }
 
   .article-img-container {
     height: 340px;
-    align-self: stretch;
-  }
-
-  .article-img {
-    height: 340px;
-    max-height: 100%;
-    object-fit: cover;
+    aspect-ratio: auto;
   }
 }
 
-/* ------------ Large screen only ------------ */
-
 @media (min-width: 1513px) {
   .article-container {
-    padding: 124px 234px;
-  }
-
-  .article-img-container {
-    align-self: stretch;
+    padding-top: 124px;
+    padding-bottom: 128px;
   }
 }

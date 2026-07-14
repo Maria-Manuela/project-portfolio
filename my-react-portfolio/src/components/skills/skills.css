@@ -4,7 +4,9 @@
   align-items: center;
   justify-content: center;
   background-color: var(--primary);
-  padding: 128px 16px 157px 16px;
+  padding: var(--section-padding-y) var(--section-padding-x) 157px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .skills-heading {
@@ -43,14 +45,15 @@
 
 .skills-wrapper {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 64px;
+  width: 100%;
   text-align: center;
 }
 
 .skill-box {
   align-items: center;
 }
-
 
 .skill-box ul {
   color: #fff;
@@ -64,46 +67,38 @@
   padding: 0;
 }
 
-/*----------- Media Query for Tablets ------------*/
-@media (max-width: 1279px) and (min-width: 744px) {
+@media (min-width: 744px) and (max-width: 1279px) {
   .skills-container {
-    padding: 128px 32px 148px 32px;
+    padding-bottom: 148px;
   }
 
   .skills-wrapper {
     grid-template-columns: repeat(2, 1fr);
-    /* 2 columns for tablets */
     text-align: left;
   }
 }
 
-/*----------- Media Query for Desktop -----------*/
 @media (min-width: 1280px) {
   .skills-container {
-    padding: 128px 161px;
     justify-content: space-between;
     gap: 128px;
+    padding-bottom: 128px;
   }
 
   .skills-wrapper {
     grid-template-columns: repeat(4, 1fr);
-    /* 4 columns for desktop */
     text-align: left;
-    width: 958px;
+    max-width: 958px;
   }
 
   .skills-heading {
     font-size: 80px;
-    padding: 0;
+    padding-bottom: 0;
   }
 }
 
 @media (min-width: 1513px) {
-  .skills-container {
-    padding: 128px 234px;
-  }
-
   .skills-wrapper {
-    width: 1044px;
+    max-width: 1044px;
   }
 }

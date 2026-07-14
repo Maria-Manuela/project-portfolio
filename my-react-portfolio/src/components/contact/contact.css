@@ -1,5 +1,7 @@
 .contact-container {
-  padding: 128px 32px 128px 33px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .contact-wrapper {
@@ -9,12 +11,14 @@
   align-items: center;
   justify-content: center;
   gap: 64px;
+  width: 100%;
 }
 
 .contact-heading {
   color: var(--primary);
   font-weight: 700;
   font-style: normal;
+  text-align: center;
 }
 
 .contact-info {
@@ -26,7 +30,6 @@
   text-decoration: none;
 }
 
-/* Styling added to make the links look like links on hover only */
 .contact-info a:hover {
   color: var(--primary);
   text-decoration: underline;
